@@ -25,6 +25,6 @@ export const requireAdmin = async (req, res, next) => {
     next();
   } catch (error) {
     console.log("error in auth middleware requireAdmin", error);
-    res.status(500).json({ message: "internal server error", error });
+    next(error);
   }
 };
