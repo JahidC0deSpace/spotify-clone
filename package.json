@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon backend/index.js",
-    "start": "node backend/index.js"
+    "start": "node backend/index.js",
+    "seed:songs": "node backend/seeds/songs.js",
+    "seed:albums": "node backend/seeds/albums.js"
   },
   "type": "module",
   "keywords": [],
