@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { SignedIn } from "@clerk/clerk-react";
 import { HomeIcon, Library, MessageCircleIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import PlaylistSkeleton from "./skeletons/PlaylistSkeleton";
+import PlaylistSkeleton from "../../components/skeletons/PlaylistSkeleton";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { useEffect } from "react";
 
@@ -15,7 +15,6 @@ const LeftSidebar = () => {
     fetchAlbums();
   }, [fetchAlbums]);
 
-  console.log({ albums });
   return (
     <div className=" h-full flex flex-col gap-2">
       {/* Navigation section */}
