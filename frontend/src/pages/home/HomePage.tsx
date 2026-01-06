@@ -4,23 +4,37 @@ import { useEffect } from "react";
 import FeaturedSecton from "./components/FeaturedSecton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import SectionGrid from "./components/SectionGrid";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 const HomePage = () => {
   const {
-    featuredSongs,
     fetchFeaturedSongs,
     madeForYouSongs,
     fetchMadeForYouSongs,
     trendingSongs,
     fetchTrendingSongs,
     isLoading,
+    featuredSongs,
   } = useMusicStore();
+
+  const { initializePlayer } = usePlayerStore();
 
   useEffect(() => {
     fetchFeaturedSongs();
     fetchMadeForYouSongs();
     fetchTrendingSongs();
   }, [fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs]);
+
+  useEffect(() => {
+    if (
+      madeForYouSongs.length > 0 &&
+      featuredSongs.length > 0 &&
+      trendingSongs.length > 0
+    ) {
+      const allSongs = [...featuredSongs, ...madeForYouSongs, ...trendingSongs];
+      initializePlayer(allSongs);
+    }
+  }, [initializePlayer, madeForYouSongs, trendingSongs, featuredSongs]);
 
   return (
     <main className=" rounded-md overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-900">
