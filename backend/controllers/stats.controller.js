@@ -8,7 +8,7 @@ export const getStats = async (req, res, next) => {
     // const totalUsers = await User.countDocuments();
     // const totalAlbum = await Album.countDocuments();
 
-    const [totalSongs, totalAlbum, totalUsers, uniaueArtists] =
+    const [totalSongs, totalAlbums, totalUsers, uniqueArtists] =
       await Promise.all([
         Song.countDocuments(),
         Album.countDocuments(),
@@ -29,7 +29,7 @@ export const getStats = async (req, res, next) => {
           // the exact same artist name or list of names).
           {
             $group: {
-              _id: "$artists",
+              _id: "$artist",
             },
           },
           // The $count stage counts the total number of unique artist entries
@@ -42,9 +42,9 @@ export const getStats = async (req, res, next) => {
 
     res.status(200).json({
       totalSongs,
-      totalAlbum,
+      totalAlbums,
       totalUsers,
-      totalArtists: uniaueArtists[0]?.count || 0,
+      totalArtists: uniqueArtists[0]?.count || 0,
     });
   } catch (error) {
     console.log("error in getStats", error);

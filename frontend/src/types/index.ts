@@ -11,10 +11,16 @@ export interface Song {
 }
 
 export interface Album {
-  id: string;
+  _id: string;
   title: string;
   artist: string;
   imageUrl: string;
   releaseYear: number;
   songs: Song[];
+}
+export interface Stats {
+  totalSongs: number;
+  totalAlbums: number;
+  totalUsers: number;
+  totalArtists: number;
 }
