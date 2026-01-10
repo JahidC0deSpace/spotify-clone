@@ -14,10 +14,9 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
-import { axiosInstance } from "@/lib/axios";
 import { useMusicStore } from "@/stores/useMusicStore";
-import { SelectValue } from "@radix-ui/react-select";
 import { Plus, Upload } from "lucide-react";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -30,7 +29,7 @@ interface NewSong {
 }
 
 const AddSongDialog = () => {
-  const { albums } = useMusicStore();
+  const { albums, addSong } = useMusicStore();
   const [songDialogOpen, setSongDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -56,6 +55,7 @@ const AddSongDialog = () => {
     setIsLoading(true);
     try {
       if (!files.audio || !files.image) {
+        setIsLoading(false);
         return toast.error("Please upload both audio and image files.");
       }
       const formData = new FormData();
@@ -68,9 +68,8 @@ const AddSongDialog = () => {
       // formData.append("album", newSong.album);
       formData.append("audioFile", files.audio);
       formData.append("imageFile", files.image);
-      await axiosInstance.post("/admin/songs", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await addSong(formData);
+
       setNewSong({
         title: "",
         artist: "",
@@ -79,11 +78,8 @@ const AddSongDialog = () => {
       });
       setFiles({ audio: null, image: null });
       setSongDialogOpen(false);
-      toast.success("Song added successfully!");
     } catch (error: any) {
-      return toast.error(
-        "Failed to add song. Please try again." + error.message
-      );
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
